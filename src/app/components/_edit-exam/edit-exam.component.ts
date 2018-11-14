@@ -60,8 +60,8 @@ export class EditExamComponent implements OnInit {
     this.examService.get(this.courseID, this.examID)
       .subscribe(
         (result) => {
-          this.examName = result.name;
           this.examEdit = JSON.parse(JSON.stringify(result));
+          this.examName = this.examEdit.name;
         },
         (error) => {
           console.error(error);
