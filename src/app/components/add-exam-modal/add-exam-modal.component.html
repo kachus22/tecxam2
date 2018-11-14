@@ -1,0 +1,60 @@
+<div id="addExam" class="">
+  <div class="card card-signin my-5">
+    <div class="card-body">
+      <h5 class="card-title text-center">Agregar Documento</h5>
+      <form class="form-signin" #f="ngForm" validate>
+
+
+        <div class="form-label-group">
+          <input type="text" id="inputNameEx" class="form-control" placeholder="Name" required autofocus
+          [(ngModel)]="examEdit.name" #nameEx="ngModel" name="nameEx" >
+          <label for="inputNameEx">Nombre *</label>
+        </div>
+
+        <div class="form-label-group">
+          <input type="text" id="inputDateEx" class="form-control" placeholder="Date" required
+          [(ngModel)]="examEdit.date" #dateEx="ngModel" name="dateEx" >
+          <label for="inputDateEx">Fecha</label>
+        </div>
+
+        <div class="form-label-group">
+          <input type="number" id="inputDurationEx" class="form-control" placeholder="Duración" required
+          [(ngModel)]="examEdit.time_limit" #durationEx="ngModel" name="durationEx" min="0" max="500" ngModel>
+          <label for="inputDurationEx">Duración</label>
+        </div>
+
+        <div class="form-label-group">
+          <textarea id="inputName" class="form-control" required
+          rows="2" cols="80" [(ngModel)]="examEdit.description" #descriptionEx="ngModel" name="descriptionEx"></textarea>
+          <label for="inputName">Descripción</label>
+        </div>
+
+        <div class="form-label-group">
+          <tag-input  [placeholder]="'+ Tag'" [secondaryPlaceholder]="'Tags'" [modelAsStrings]="true" [theme]="'bootstrap'"
+          [(ngModel)]="random_questions" #tags="ngModel" name="tags" ngModel></tag-input>
+        </div>
+
+        <div class="form-group">
+          <select class="form-control selectpicker" id="selectType" (change)="onChange($event.target)">
+            <option selected disabled>Tipo de documento</option>
+            <option>Examen</option>
+            <option>Tarea</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <!-- <div class="input-icons col-12 file-input" *ngIf="upload">
+            <label class="btn btn-lg btn-primary btn-block form-control">
+                {{fileName}}
+                <input #image (change)="handleBannerInput($event.target.files)"
+                class="form-control"
+                accept="image/x-png,image/jpeg"
+                type="file" style="display: none;">
+            </label>
+            <fa name="image" class="icons"></fa>
+        </div> -->
+
+      </form>
+      <button (click)="onSubmit()" class="btn btn-lg btn-primary btn-block">Agregar documento</button>
+    </div>
+  </div>
+</div>

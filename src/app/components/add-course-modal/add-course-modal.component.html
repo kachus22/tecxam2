@@ -1,0 +1,32 @@
+<div id="addExam" class="">
+  <div class="card card-signin my-5">
+    <div class="card-body">
+      <h5 class="card-title text-center">Agregar Curso</h5>
+      <form class="form-signin" #f="ngForm" (ngSubmit)="onSubmit(f)" validate>
+
+        <div class="form-label-group">
+          <input style="text-transform: uppercase;" type="text" id="inputSiglas" class="form-control" placeholder="Siglas" required
+          #acronym="ngModel" name="acronym" ngModel>
+          <label for="inputSiglas">Siglas</label>
+        </div>
+
+        <div class="form-label-group">
+          <input type="text" id="inputName" class="form-control" placeholder="Nombre del curso" required
+          #name="ngModel" name="name" ngModel>
+          <label for="inputName">Nombre del curso</label>
+        </div>
+
+        <div class="form-label-group">
+
+          <textarea class="form-control" id="textAreaNotes" rows="3" placeholder="Notas adicionales"
+          #description="ngModel" name="description" ngModel></textarea>
+          <!-- <label for="textAreaNotes">Notas adicionales</label> -->
+        </div>
+        <button class="btn btn-lg btn-primary btn-block text-uppercase">Agregar</button>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- <div class="col-sm-9 col-md-7 col-lg-5">
+
+</div> -->

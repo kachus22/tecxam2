@@ -1,0 +1,95 @@
+<navbar></navbar>
+<div id="main" class="container">
+  <h1 class="page-title">Cursos</h1>
+  <ngx-datatable
+    #table
+    class="material fullscreen expandable"
+    [columnMode]="'force'"
+    [rows]="rows"
+    [columns]="columns"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [selectionType]="'checkbox'"
+    (select)="onSelect($event)">
+    <!-- Row Detail Template -->
+        <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow>
+          <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+            <div style="padding-left:35px;">
+              <div><strong>Descripción del curso</strong></div>
+              <div>{{row.description}}</div>
+            </div>
+          </ng-template>
+        </ngx-datatable-row-detail>
+        <ngx-datatable-column
+                  [width]="50"
+                  [resizeable]="false"
+                  [sortable]="false"
+                  [draggable]="false"
+                  [canAutoResize]="false">
+                  <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                    <a
+                      href="javascript:void(0)"
+                      [class.datatable-icon-right]="!expanded"
+                      [class.datatable-icon-down]="expanded"
+                      title="Expand/Collapse Row"
+                      (click)="toggleExpandRow(row)">
+                    </a>
+                  </ng-template>
+                </ngx-datatable-column>
+
+    <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+        <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+          <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+          <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="acronym">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <a  class="table-link" routerLink="courses/{{row.id}}/exams">{{row.acronym}}</a>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="name">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <a  class="table-link">{{row.name}}</a> <button *ngIf="selected.length == 1 && row.id == selected" class="btn btn-primary btn-add btn-sm" style="margin: 0px 0px 0px 10px !important;" (click)="openEdit()">Editar<fa name="plus-circle" class="icons"></fa></button>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+  <button class="btn btn-primary btn-add" (click)="open()">Agregar curso<fa name="plus-circle" class="icons"></fa></button>
+  <button class="btn btn-primary btn-delete" (click)="onDelete()" *ngIf="selected.length > 0 && !edit">Borrar <fa name="minus-circle" class="icons"></fa></button>
+
+  <div class="row" *ngIf="edit && selected.length == 1">
+    <div class="card card-signin col-sm-12 col-md-6 col-lg-5">
+      <div class="card-body">
+        <h5 class="card-title text-center">Editar Curso</h5>
+        <form class="form-question" #f="ngForm" (ngSubmit)="onSubmit(f)" validate>
+
+          <div class="form-label-group">
+            <input type="text" id="inputAcronymTemp" class="form-control" placeholder="Acronym" required
+            [(ngModel)]="courseEdit.acronym" #acronymTemp="ngModel" name="acronymTemp" >
+            <label for="inputAcronymTemp">Siglas</label>
+          </div>
+
+          <div class="form-label-group">
+            <input type="text" id="inputNameTemp" class="form-control" placeholder="Name" required
+            [(ngModel)]="courseEdit.name" #nameTemp="ngModel" name="nameTemp" >
+            <label for="inputNameTemp">Nombre</label>
+          </div>
+
+          <div class="form-label-group">
+            <textarea id="inputDescriptionTemp" class="form-control" required
+            rows="5" cols="80" [(ngModel)]="courseEdit.description" #descriptionTemp="ngModel" name="descriptionTemp"></textarea>
+            <label for="inputDescriptionTemp">Descripción</label>
+          </div>
+
+          <div class="row" style="justify-content: space-between" *ngIf="selected.length >= 1">
+            <button (click)="update()" type="button" class="btn btn-primary btn-block btn-save" name="button" style="border: 2px white !important">Actualizar Curso</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

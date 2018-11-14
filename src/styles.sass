@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css"
+@import "~font-awesome/css/font-awesome.css"
+@import "~ng6-toastr/ng2-toastr.css"
+@import "~@swimlane/ngx-datatable/release/index.css"
+@import "~@swimlane/ngx-datatable/release/themes/material.css"
+@import "~@swimlane/ngx-datatable/release/assets/icons.css"
+
+
+// Variables
+$blue-tec: rgb(63,81,181)
+$select: #007bff
+$pink: #ff508e
+
+body
+  margin: 0
+  background: $blue-tec
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, $blue-tec, #4457C4, #465AC9, #4971D1, #596ed6)
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, $blue-tec, #425ABC, #4666C4, #4A72CE, #596ed6)
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  position: relative
+
+button.btn, a.btn
+  border-radius: 2rem
+  background: $pink
+  border-color: $pink
+  color: white
+
+h1.page-title
+  display: flex
+  margin: 15px 12px
+  justify-content: center
+  color: white
+  span
+    font-weight: bold
+    margin-left: 10px
+
+ngx-datatable
+  margin-top: 15px
+  margin-bottom: 10px
+  border-radius: 1rem
+
+.add-modal
+  border-radius: 1rem
+  margin: 0 auto
+
+input[type=number] + label
+  width: 75%
+
+
+.ngx-datatable.material.single-selection .datatable-body-row.active, .ngx-datatable.material.single-selection .datatable-body-row.active .datatable-row-group, .ngx-datatable.material.multi-selection .datatable-body-row.active, .ngx-datatable.material.multi-selection .datatable-body-row.active .datatable-row-group, .ngx-datatable.material.multi-click-selection .datatable-body-row.active, .ngx-datatable.material.multi-click-selection .datatable-body-row.active .datatable-row-group
+  background-color: $blue-tec !important
+  color: white !important
+
+  span
+    color: white !important
+
+.ngx-datatable.fixed-row .datatable-scroll .datatable-body-row.active .datatable-body-cell
+  color: white !important
+
+.i-download
+  cursor: pointer
+  color: #007bff
+  &:hover
+    color: #0056b3

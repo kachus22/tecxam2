@@ -1,0 +1,63 @@
+<navbar></navbar>
+<div id="main" class="container">
+  <back-button [link]="''" [title]="'Cursos'"></back-button><h1 class="page-title">Documentos</h1>
+  <ngx-datatable
+    #table
+    class="material fullscreen expandable"
+    [columnMode]="'force'"
+    [rows]="rows"
+    [columns]="columns"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    [rowHeight]="'auto'"
+    [selectionType]="'checkbox'"
+    (select)='onSelect($event)'
+    [groupRowsBy]="'type'"
+    [groupExpansionDefault]="true">
+    <!-- Group Header Template -->
+        <ngx-datatable-group-header [rowHeight]="50" #myGroupHeader (toggle)="onDetailToggle($event)">
+          <ng-template let-group="group" let-expanded="expanded" ngx-datatable-group-header-template>
+            <div style="padding-left:5px;">
+              <a style="cursor: pointer"
+                [class.datatable-icon-right]="!expanded"
+                [class.datatable-icon-down]="expanded"
+                title="Sección de {{group.value[0].type}}"
+                (click)="toggleExpandGroup(group)">
+                <b>{{group.value[0].type}} <fa name="info-circle" class=""></fa></b>
+              </a>
+            </div>
+          </ng-template>
+        </ngx-datatable-group-header>
+
+
+    <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+        <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+          <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>
+        </ng-template>
+        <ng-template ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+          <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column prop="Documento"
+      [sortable]="false">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{row.name}} <fa *ngIf="isRandom(row.random_questions)" name="random" class="i-random"></fa>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Opciones"
+      [width]="120"
+      [resizeable]="false"
+      [sortable]="false"
+      [draggable]="false"
+      [canAutoResize]="false">
+      <ng-template let-row="row" let-group="group" ngx-datatable-cell-template>
+        <a routerLink="/courses/{{courseID}}/exams/{{row.id}}/questions"><fa class="i-edit" name="edit" size="lg" animation="" style="margin-right: 10px;" *ngIf="row.type != 'Otro'"></fa></a>
+        <div class="separator" *ngIf="row.type == 'Otro'"></div>
+        <a  (click)="getPDF(row.id)" target="_blank" download><fa class="i-download" name="book" size="lg" animation="" style="margin-right: 10px"></fa></a>
+        <a  (click)="getPDFAns(row.id)" target="_blank" download><fa class="i-download" name="tasks" size="lg" animation=""></fa></a>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
+
+  <button class="btn btn-primary btn-add" (click)="open()">Agregar <fa name="plus-circle " class="icons"></fa></button>
+  <button class="btn btn-primary btn-delete" (click)="onDelete()" *ngIf="selected.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>

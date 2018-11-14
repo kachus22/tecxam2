@@ -1,0 +1,15 @@
+<div class="loading position-absolute" *ngIf="loading">
+  <fa name="spinner" size="5x" animation="spin"></fa>
+</div>
+
+<login (success)="onSubmitLogin($event)" (switch)="onChange()" *ngIf="!register"></login>
+<register (success)="onSubmitRegister($event)" (switch)="onChange()" *ngIf="register"></register>
+
+
+<!-- <p>First name value: {{ user.value }}</p>
+<p>First name valid: {{ user.untouched }}</p>
+<p>First name valid: {{ user.touched }}</p>
+<p>First name valid: {{ user.pristine }}</p>
+<p>First name valid: {{ user.dirty }}</p>
+<p>Form value: {{ f.value | json }}</p>
+<p>Form valid: {{ f.valid }}</p> -->

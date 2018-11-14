@@ -1,0 +1,183 @@
+<navbar></navbar>
+<div class="container" style="position: relative">
+  <back-button [link]="''" [title]="'Exámenes'"></back-button><h1 class="page-title">Examen - <span>{{examName}}</span></h1>
+</div>
+<div id="addExam" class="container" style="display: flex; flex-direction: column">
+  <div class="row"  style="justify-content: center" *ngIf="examEdit">
+    <div class="card card-signin col-sm-12 col-md-10 col-lg-8">
+      <div class="card-body">
+        <h5 class="card-title text-center">Datos examen</h5>
+        <form class="form-question" #f="ngForm" (ngSubmit)="onSubmit(f)" validate>
+
+          <div class="form-label-group">
+            <input type="text" id="inputNameEx" class="form-control" placeholder="Name" required
+            [(ngModel)]="examEdit.name" #nameEx="ngModel" name="nameEx" >
+            <label for="inputNameEx">Nombre</label>
+          </div>
+
+          <div class="form-label-group">
+            <input type="text" id="inputDateEx" class="form-control" placeholder="Date" required
+            [(ngModel)]="examEdit.date" #dateEx="ngModel" name="dateEx" >
+            <label for="inputDateEx">Fecha</label>
+          </div>
+
+          <div class="form-label-group">
+            <input type="number" id="inputDurationEx" class="form-control" placeholder="Duración" required
+            [(ngModel)]="examEdit.time_limit" #durationEx="ngModel" name="durationEx" min="0" max="500" ngModel>
+            <label for="inputDurationEx">Duración</label>
+          </div>
+
+          <div class="form-label-group">
+            <textarea id="inputName" class="form-control" required
+            rows="2" cols="80" [(ngModel)]="examEdit.description" #descriptionEx="ngModel" name="descriptionEx"></textarea>
+            <label for="inputName">Descripción</label>
+          </div>
+
+          <div class="row" style="justify-content: space-between">
+            <button (click)="updateExam()" type="button" class="btn btn-primary btn-block btn-save" name="button" style="border: 2px white !important">Actualizar examen</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="">
+    <div class="card card-signin col-12">
+      <h5 class="card-title text-center" style="margin-top: 33px; margin-bottom: ;">Lista de preguntas</h5>
+      <ngx-datatable
+        #table
+        class="material"
+        style="height: 300px;"
+        [scrollbarV]="true"
+        [columnMode]="'force'"
+        [rows]="rows"
+        [columns]="columns"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        [selected]="selected"
+        [selectionType]="'single'"
+        (select)='onSelect($event)'
+        [selectCheck]='singleSelectCheck'>
+        <ngx-datatable-column prop="name">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <a  class="table-link">{{row.name}}</a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="points">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <a  class="table-link">{{row.points}} puntos</a>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+      <div class="container">
+        <div class="row">
+          <button class="btn btn-primary btn-add" (click)="open()">Agregar pregunta <fa name="plus-circle" class="icons"></fa></button>
+          <button class="btn btn-primary btn-delete" (click)="onDelete()" *ngIf="selected.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="justify-content: space-between" *ngIf="editQuestion">
+    <div class="card card-signin col-sm-12 col-md-6 col-lg-5">
+      <div class="card-body">
+        <h5 class="card-title text-center">Datos de Pregunta</h5>
+        <form class="form-signin" #f="ngForm" validate>
+
+          <div class="form-label-group">
+            <textarea id="inputName" class="form-control" required
+            rows="2" cols="80" [(ngModel)]="questionEdit.name" #description="ngModel" name="description"></textarea>
+            <label for="inputName">Pregunta</label>
+          </div>
+          <div class="form-label-group">
+            <input type="number" id="inputPoints" class="form-control" placeholder="Puntos" required
+            [(ngModel)]="questionEdit.points" #pointss="ngModel" name="pointss"  value="0" min="0" max="100" ngModel>
+            <label for="inputPoints">Puntos</label>
+          </div>
+          <div class="form-label-group">
+            <tag-input  [placeholder]="'+ Tag'" [secondaryPlaceholder]="'Tags *'" [modelAsStrings]="true" [theme]="'bootstrap'"
+            [(ngModel)]="questionEdit.tags" #tags="ngModel" name="tags" ngModel></tag-input>
+          </div>
+
+        </form>
+        <button (click)="updateQuestion()" class="btn btn-primary btn-block btn-save" name="button">Actualizar pregunta</button>
+      </div>
+    </div>
+    <div class="card card-signin col-sm-12 col-md-6 col-lg-5">
+      <h5 class="card-title text-center" style="margin-top: 33px; margin-bottom: ;">Lista de respuestas</h5>
+      <ngx-datatable
+        #table2
+        class="material"
+        style="height: 300px;"
+        [scrollbarV]="true"
+        [columnMode]="'force'"
+        [rows]="rows2"
+        [columns]="columns2"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="50"
+        [selected]="selectedAns"
+        [selectionType]="'single'"
+        [selectCheck]="singleSelectCheck"
+        (select)='onSelectAnswer($event)'>
+        <ngx-datatable-column prop="name">
+          <ng-template let-row="row" ngx-datatable-cell-template [ngx-scroll-to]="'destination'">
+            <a  class="table-link">{{row.name}}</a>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column prop="correct" [width]="75" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <a  style="display: flex; justify-content: center" class="table-link" *ngIf="row.correct == true"> <fa style="color: #ff508e; font-size: 20px;" class="i-correct" name="check-circle" class="icons"></fa></a>
+            <a  style="display: flex; justify-content: center" class="table-link" *ngIf="row.correct != true"> <fa style="font-size: 20px;" name="times-circle" class="icons"></fa></a>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+
+      <div class="container">
+        <div class="row">
+          <button *ngIf="checkAnswers || (!checkAnswers && rows2.length < 1)" class="btn btn-primary btn-add" (click)="openAns()">Agregar Respuesta <fa name="plus-circle" class="icons"></fa></button>
+          <button class="btn btn-primary btn-delete" (click)="onDeleteAns(row)" *ngIf="selectedAns.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="justify-content: center" *ngIf="editAnswer">
+    <div class="card card-signin col-sm-12 col-md-10 col-lg-8">
+      <div class="card-body">
+        <h5 class="card-title text-center">Actualizar Respuesta</h5>
+        <form class="form-signin" #f="ngForm" (ngSubmit)="onSubmit(f)" validate>
+
+          <div class="form-label-group">
+            <textarea class="form-control" id="textNameAns" rows="2" placeholder="Respuesta"
+            [(ngModel)]="answerEdit.name" #nameAns="ngModel" name="nameAns" ngModel></textarea>
+            <label for="textNameAns">Respuesta</label>
+          </div>
+
+          <div class="container">
+            <div class="row">
+              <span style="margin-top: 3px;">Respuesta correcta</span> <ui-switch style="margin-left: 13px;"color="#ff508e"[(ngModel)]="answerEdit.correct"  #correctAns="ngModel" name="correctAns" ngModel></ui-switch>
+            </div>
+          </div>
+
+          <div class="row" *ngFor="let v of variables; let i = index">
+            <div class="form-label-group col-3">
+              <input type="text" id="inputVars{{i}}" class="form-control" placeholder="Variable" required
+               (change)="onChangeVar(i, $event.target.value)" [(ngModel)]="variables[i][0]" #varAns{{i}}="ngModel" name="varAns{{i}}" ngModel>
+              <label for="inputVars{{i}}">Var</label>
+            </div>
+
+            <div class="form-label-group">
+              <tag-input  [placeholder]="'+ Valor'" [secondaryPlaceholder]="'Valores *'" [modelAsStrings]="true" [theme]="'bootstrap'"
+              [(ngModel)]="variables[i][1]" #valueAns{{i}}="ngModel" name="valueAns{{i}}" ngModel></tag-input>
+            </div>
+          </div>
+        </form>
+        <a class="btn btn-primary" (click)="addVar()" style="color: white; margin-bottom: 5px;">Variable <fa name="plus-circle" class="icons"></fa></a>
+        <button (click)="updateAnswer()" class="btn btn-primary btn-block btn-save" name="button">Actualizar respuesta</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="" style="content: ''" id="destination">
+
+</div>
