@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { RegisterService } from 'src/app/services/register.service';
 
 @Component({
   selector: 'register',
@@ -11,7 +12,7 @@ export class RegisterComponent implements OnInit {
   @Output() success = new EventEmitter<boolean>();
   @Output() switch = new EventEmitter<boolean>();
 
-  constructor() { }
+  constructor(private service: RegisterService) { }
 
   ngOnInit() {
   }
@@ -21,25 +22,24 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(f: NgForm){
-    this.success.emit(false);
-    // let password = '1234567a';
-    // let user = 'test';
-    // if(f.value.user == user && f.value.password == password){
-    //   localStorage.setItem('user', user);
-    //   localStorage.setItem('password', password);
-    //   this.success.emit(true);
-    // }
-    // else{
-    //   this.success.emit(false);
-    // }
+    let regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))(@itesm\.mx)$/;
+    if(regex.test(String(f.value.user).toLowerCase())){
+      let postBody = { user: {email: f.value.user, password: f.value.password}}
+      this.service.register(postBody)
+        .subscribe(
+          (result) => {
+            localStorage.setItem('email', f.value.user);
+            localStorage.setItem('authorization', result.headers.get('authorization'));
+            this.success.emit(true);
+          },
+          (error) => {
+            console.error(error);
+            this.success.emit(false);
+          }
+        );
+    }
+    else{
+      this.success.emit(false);
+    }
   }
-
-  // validateEmail(email) {
-  //   var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //   return re.test(email);
-  // }
-  validateUser(email) {
-    return true
-  }
-
 }

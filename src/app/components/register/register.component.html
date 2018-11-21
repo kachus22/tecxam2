@@ -20,22 +20,16 @@
             <form class="form-signin" #f="ngForm" (ngSubmit)="onSubmit(f)" validate>
               <div class="form-label-group">
                 <input type="text" id="inputUser" class="form-control" placeholder="Usuario" required autofocus
-                [ngClass]="{'is-invalid': !validateUser(user.value) && user.dirty && user.touched }"
-                #user="ngModel" name="user" ngModel disabled>
-                <label for="inputUser">Correo electrónico institucional</label>
+                #user="ngModel" name="user" ngModel>
+                <label for="inputUser">Correo electrónico (correo@itesm.mx)</label>
               </div>
 
               <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required #password="ngModel" name="password" ngModel disabled>
-                <label for="inputPassword">Contraseña</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required #password="ngModel" name="password" ngModel>
+                <label for="inputPassword">Contraseña (8 min)</label>
               </div>
-
-              <div class="form-label-group">
-                <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required #confirmPassword="ngModel" name="confirmPassword" ngModel disabled>
-                <label for="inputConfirmPassword">Confirmar Contraseña</label>
-              </div>
-              <button class="btn btn-lg btn-primary btn-block text-uppercase">Registrarse</button>
-              <a class="d-block text-center mt-2 small btn-register" (click)="onChange()" type=button disabled>Iniciar sesión</a>
+              <button type="submit" class="btn btn-lg btn-primary btn-block text-uppercase">Registrarse</button>
+              <a class="d-block text-center mt-2 small btn-register" (click)="onChange()" type=button>Iniciar sesión</a>
               <hr class="my-4">
               <button class="btn btn-lg btn-google btn-block text-uppercase" placement="top" ngbTooltip="No disponible" container="body" disabled><fa name="google" size="lg" animation=""></fa> Registrarse con Google</button>
               <button class="btn btn-lg btn-facebook btn-block text-uppercase" placement="top" ngbTooltip="No disponible" container="body" disabled><fa name="facebook-f" size="lg" animation=""></fa> Registrarse con Facebook</button>

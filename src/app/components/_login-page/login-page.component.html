@@ -1,7 +1,4 @@
-<div class="loading position-absolute" *ngIf="loading">
-  <fa name="spinner" size="5x" animation="spin"></fa>
-</div>
-
+<loader *ngIf="loading"></loader>
 <login (success)="onSubmitLogin($event)" (switch)="onChange()" *ngIf="!register"></login>
 <register (success)="onSubmitRegister($event)" (switch)="onChange()" *ngIf="register"></register>
 

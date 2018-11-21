@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { FormsModule, ReactiveFormsModule }        from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +26,7 @@ import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 
 import { AuthGuard } from './services/auth.guard';
 import { BaseService } from './services/base/base.service';
+import { LoaderInterceptorService } from './services/loader-interceptor.service';
 //
 // Components
 //
@@ -44,6 +46,7 @@ import { AddQuestionModalComponent } from './components/add-question-modal/add-q
 import { AddAnswerModalComponent } from './components/add-answer-modal/add-answer-modal.component';
 import { EditExamComponent } from './components/_edit-exam/edit-exam.component';
 import { NotFoundPageComponent } from './components/_not-found-page/not-found-page.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +64,8 @@ import { NotFoundPageComponent } from './components/_not-found-page/not-found-pa
     AddQuestionModalComponent,
     AddAnswerModalComponent,
     EditExamComponent,
-    NotFoundPageComponent
+    NotFoundPageComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +84,12 @@ import { NotFoundPageComponent } from './components/_not-found-page/not-found-pa
   ],
   providers: [
     BaseService,
-    AuthGuard
+    AuthGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [

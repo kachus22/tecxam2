@@ -1,5 +1,11 @@
 @import "src/styles.sass"
 
+tag-input
+  border-radius: 2rem
+  border: 1px solid #ced4da
+  div.ng2-tag-input
+    border: none
+
 div#addExam
   width: 100vw
   --input-padding-x: 1.8rem
@@ -118,11 +124,20 @@ div#addExam
 
 .btn-delete
   position: absolute
-  right: 12px
+  left: 180px
   bottom: 10px
 
+.btn-edit
+  margin-right: 10px
+  cursor: pointer
 
-
+.i-edit
+  color: $pink
+  &:hover
+    color: #d54176
+.i-random
+  font-size: 14px
+  color: $pink
 
 
 .input-icons

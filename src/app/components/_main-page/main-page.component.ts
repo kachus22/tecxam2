@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddCourseModalComponent } from '../add-course-modal/add-course-modal.component';
 import { CoursesService } from 'src/app/services/courses.service';
+import { ToastsManager } from 'ng6-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-main-page',
@@ -9,6 +10,7 @@ import { CoursesService } from 'src/app/services/courses.service';
   styleUrls: ['./main-page.component.sass']
 })
 export class MainPageComponent implements OnInit {
+  loading: boolean = false;
   edit = false;
   rows = [];
   courseEdit: any;
@@ -23,16 +25,21 @@ export class MainPageComponent implements OnInit {
 
   @ViewChild('table') table: any;
 
-  constructor(public courseService: CoursesService, private modalService: NgbModal) { }
+  constructor(public courseService: CoursesService, private modalService: NgbModal, public toastr: ToastsManager, vcr: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vcr);
+  }
 
   ngOnInit() {
     this.load();
   }
 
   load(){
+    this.loading = true;
     this.courseService.fill()
       .subscribe(
         (result) => {
+          this.showSuccess('Cursos cargados!');
+          this.loading = false;
           this.rows = [];
           for(var i in result){
             let row = { acronym: result[i].acronym, name: result[i].name,
@@ -44,6 +51,8 @@ export class MainPageComponent implements OnInit {
           this.rows = [...this.rows];
         },
         (error) => {
+          this.loading = false;
+          this.showError('No se cargaron los datos!');
           console.error(error);
         }
       );
@@ -141,5 +150,13 @@ export class MainPageComponent implements OnInit {
           console.error(error);
         }
       );
+  }
+
+  showSuccess(msg: string) {
+    this.toastr.success(msg, 'Whoo!');
+  }
+
+  showError(msg: string) {
+    this.toastr.error(msg, 'Oops!');
   }
 }

@@ -61,6 +61,9 @@ export class AddAnswerModalComponent implements OnInit {
     this.variables.push([null, null]);
   }
 
+  delVar(){
+    this.variables.pop();
+  }
 
   showError(msg: string) {
     this.toastr.error(msg, 'Oops!');

@@ -1,6 +1,8 @@
 <navbar></navbar>
+<back-button [link]="''" [title]="'Regresar a Cursos'"></back-button>
 <div id="main" class="container">
-  <back-button [link]="''" [title]="'Cursos'"></back-button><h1 class="page-title">Documentos</h1>
+  <h1 class="page-title">Documentos</h1>
+  <loader *ngIf="loading"></loader>
   <ngx-datatable
     #table
     class="material fullscreen expandable"
@@ -59,5 +61,5 @@
     </ngx-datatable-column>
   </ngx-datatable>
 
-  <button class="btn btn-primary btn-add" (click)="open()">Agregar <fa name="plus-circle " class="icons"></fa></button>
+  <button class="btn btn-primary btn-add" (click)="open()">Agregar examen <fa name="plus-circle " class="icons"></fa></button>
   <button class="btn btn-primary btn-delete" (click)="onDelete()" *ngIf="selected.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>

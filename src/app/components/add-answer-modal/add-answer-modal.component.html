@@ -24,12 +24,13 @@
           </div>
 
           <div class="form-label-group col-7">
-            <tag-input  [placeholder]="'+ Valor'" [secondaryPlaceholder]="'Valores *'" [modelAsStrings]="true" [theme]="'bootstrap'"
+            <tag-input [separatorKeyCodes]="[188, 13]" [placeholder]="'+ Valor'" [secondaryPlaceholder]="'Valores *'" [modelAsStrings]="true" [theme]="'bootstrap'"
             [(ngModel)]="variables[i][1]" #valueAns{{i}}="ngModel" name="valueAns{{i}}" ngModel></tag-input>
           </div>
         </div>
       </form>
       <a class="btn btn-primary" (click)="addVar()" style="color: white; margin-bottom: 5px;">Variable <fa name="plus-circle" class="icons"></fa></a>
+      <a class="btn btn-primary" (click)="delVar()" style="color: white; margin-left: 5px; margin-bottom: 5px;">Borrar <fa name="minus-circle" class="icons"></fa></a>
       <button (click)="onSubmit()" class="btn btn-primary btn-block btn-save" name="button">Agregar respuesta</button>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ExamsService } from 'src/app/services/exams.service';
 import { QuestionsService } from 'src/app/services/questions.service';
 import { AnswersService } from 'src/app/services/answers.service';
@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AddQuestionModalComponent } from '../add-question-modal/add-question-modal.component';
 import { AddAnswerModalComponent } from '../add-answer-modal/add-answer-modal.component';
 import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scroll-to';
+import { ToastsManager } from 'ng6-toastr/ng2-toastr';
 
 @Component({
   selector: 'edit-exam',
@@ -13,6 +14,10 @@ import { ScrollToService, ScrollToConfigOptions } from '@nicky-lenaers/ngx-scrol
   styleUrls: ['./edit-exam.component.sass']
 })
 export class EditExamComponent implements OnInit {
+  loading: boolean = false;
+  loadingAns: boolean = false;
+  loadingVar: boolean = false;
+
   courseEdit: any;
   examEdit: any;
   questionEdit: any;
@@ -46,7 +51,10 @@ export class EditExamComponent implements OnInit {
 
   constructor(public examService: ExamsService, public questionsService: QuestionsService,
               public answersService: AnswersService,
-              private modalService: NgbModal, private _scrollToService: ScrollToService) { }
+              private modalService: NgbModal, private _scrollToService: ScrollToService,
+            public toastr: ToastsManager, vcr: ViewContainerRef) {
+                this.toastr.setRootViewContainerRef(vcr);
+              }
 
   ngOnInit() {
     let ids = window.location.pathname.match(/\d+/g);
@@ -70,9 +78,12 @@ export class EditExamComponent implements OnInit {
   }
 
   load(){
+    this.loading = true;
     this.questionsService.fill(this.courseID, this.examID)
       .subscribe(
         (result) => {
+          this.showSuccess('Examen cargado!');
+          this.loading = false;
           this.rows = [];
           for(var i in result){
             let row = { id: result[i].id, name: result[i].name,
@@ -84,15 +95,20 @@ export class EditExamComponent implements OnInit {
           this.rows = [...this.rows];
         },
         (error) => {
+          this.loading = false;
+          this.showError('No se cargo el examen!');
           console.error(error);
         }
       );
   }
 
   loadAnswers(id: string){
+    this.loadingAns = true;
     this.answersService.fill(id)
       .subscribe(
         (result) => {
+          this.showSuccess('Respuestas cargadas!');
+          this.loadingAns = false;
           this.rows2 = [];
           for(var i in result){
             let row = { id: result[i].id, name: result[i].name,
@@ -104,6 +120,8 @@ export class EditExamComponent implements OnInit {
           this.rows2 = [...this.rows2];
         },
         (error) => {
+          this.loadingAns = true;
+          this.showError('No se cargaron las respuestas');
           console.error(error);
         }
       );
@@ -121,10 +139,12 @@ export class EditExamComponent implements OnInit {
     this.examService.update(this.courseID, this.examID, exam)
       .subscribe(
         (result) => {
+          this.showSuccess('Examen actualizado!');
           console.log(result);
           window.location.reload();
         },
         (error) => {
+          this.showError('Hubo un error!');
           console.error(error);
         }
       );
@@ -135,18 +155,21 @@ export class EditExamComponent implements OnInit {
       question: {
         name: this.questionEdit.name,
         points: this.questionEdit.points,
-        tags: this.questionEdit.tags
+        tags: this.questionEdit.tags,
+        category: this.questionEdit.category
       }
     }
     this.questionsService.update(this.courseID, this.examID, this.questionEdit.id, question)
       .subscribe(
         (result) => {
+          this.showSuccess('Pregunta actualizada!');
           this.questionEdit = null;
           this.editQuestion = false;
           this.editAnswer = false;
           this.load();
         },
         (error) => {
+          this.showSuccess('Hubo un error!');
           console.error(error);
         }
       );
@@ -166,11 +189,13 @@ export class EditExamComponent implements OnInit {
     this.answersService.update(this.questionEdit.id, this.answerEdit.id, answer)
       .subscribe(
         (result) => {
+          this.showSuccess('Respuesta actualizada!');
           this.answerEdit = null;
           this.editAnswer = false;
           this.loadAnswers(this.questionEdit.id);
         },
         (error) => {
+          this.showError('Hubo un error!');
           console.error(error);
         }
       );
@@ -180,11 +205,13 @@ export class EditExamComponent implements OnInit {
     this.questionsService.delete(this.courseID, this.examID, this.questionEdit.id)
         .subscribe(
           (result) => {
+            this.showSuccess('Pregunta borrada!');
             this.editQuestion = false;
             this.editAnswer = false;
             this.load();
           },
           (error) => {
+            this.showSuccess('Hubo un error!');
             console.error(error);
           }
         );
@@ -194,10 +221,12 @@ export class EditExamComponent implements OnInit {
     this.answersService.delete(this.questionEdit.id, this.answerEdit.id)
         .subscribe(
           (result) => {
+            this.showSuccess('Respuesta borrada!');
             this.editAnswer = false;
             this.loadAnswers(this.questionEdit.id);
           },
           (error) => {
+            this.showError('Hubo un error!');
             console.error(error);
           }
         );
@@ -257,6 +286,10 @@ export class EditExamComponent implements OnInit {
 
   addVar(){
     this.variables.push([null, null]);
+  }
+
+  delVar(){
+    this.variables.pop();
   }
 
   open(){
@@ -338,5 +371,37 @@ export class EditExamComponent implements OnInit {
       target: 'destination'
     };
     this._scrollToService.scrollTo(config);
+  }
+
+  onChange(e){
+    if(e.value == 'Opción mutliple'){
+      this.questionEdit.category = 'multiple_choice';
+    }
+    else if(e.value == 'Checkbox'){
+      this.questionEdit.category = 'checkbox';
+    }
+    else if(e.value == 'Radio'){
+      this.questionEdit.category = 'radio';
+    }
+    else if(e.value == 'Caja de Texto corto'){
+      this.questionEdit.category = 'small_textbox';
+    }
+    else if(e.value == 'Caja de Texto largo'){
+      this.questionEdit.category = 'big_textbox';
+    }
+    else if(e.value == 'Párrafo'){
+      this.questionEdit.category = 'paragraph';
+    }
+    else if(e.value == 'Ensayo'){
+      this.questionEdit.category = 'essay';
+    }
+  }
+
+  showSuccess(msg: string) {
+    this.toastr.success(msg, 'Whoo!');
+  }
+
+  showError(msg: string) {
+    this.toastr.error(msg, 'Oops!');
   }
 }

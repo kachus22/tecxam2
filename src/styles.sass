@@ -5,6 +5,7 @@
 @import "~@swimlane/ngx-datatable/release/index.css"
 @import "~@swimlane/ngx-datatable/release/themes/material.css"
 @import "~@swimlane/ngx-datatable/release/assets/icons.css"
+@import "~ngx-chips/core/styles/core/_core.scss"
 
 
 // Variables
@@ -14,6 +15,7 @@ $pink: #ff508e
 
 body
   margin: 0
+  padding-bottom: 100px
   background: $blue-tec
   /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, $blue-tec, #4457C4, #465AC9, #4971D1, #596ed6)
@@ -65,3 +67,29 @@ input[type=number] + label
   color: #007bff
   &:hover
     color: #0056b3
+
+
+// $foundation-primary: #1779ba
+$foundation-primary: $blue-tec
+$foundation-primary-dark: darken($foundation-primary, 10%)
+
+// this is the container's theme
+$foundation-theme: (container-border-bottom: none )
+
+// this is the tag's theme
+$foundation-tag-theme: ( background: $foundation-primary, background-focused: $foundation-primary-dark, background-active: $foundation-primary-dark, background-hover: $foundation-primary-dark, color: #fff, color-hover: #fff, border-radius: 2rem)
+
+// this is the delete icon's theme
+$foundation-icon-theme: (fill: #fff, fill-focus: #eee, transition: all 0.35s)
+
+// apply theme to the container
+::ng-deep .ng2-tag-input.foundation-theme
+    @include tag-input-theme($foundation-theme)
+
+// apply theme to the tags
+::ng-deep .ng2-tag-input.foundation-theme tag
+    @include tag-theme($foundation-tag-theme)
+
+// apply theme to the delete icon
+::ng-deep .ng2-tag-input.foundation-theme tag delete-icon
+    @include icon-theme($foundation-icon-theme)

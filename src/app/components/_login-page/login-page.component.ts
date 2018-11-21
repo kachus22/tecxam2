@@ -45,15 +45,15 @@ export class LoginPageComponent implements OnInit {
 
   onSubmitRegister(e){
     if(e){
-      // this.showSuccess();
-      // this.loading = true;
-      // setTimeout(() => {
-      //     this.router.navigateByUrl('/dashboard');
-      //   }
-      //   , 2200);
+      this.showSuccess('Bienvenido a TecXam!');
+      this.loading = true;
+      setTimeout(() => {
+          this.router.navigateByUrl('');
+        }
+        , 2200);
     }
     else{
-      this.showError('De momento no estamos aceptando usuarios nuevos');
+      this.showError('Revisa tus datos');
     }
   }
 

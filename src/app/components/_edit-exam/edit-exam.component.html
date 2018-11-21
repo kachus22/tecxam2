@@ -1,6 +1,7 @@
 <navbar></navbar>
+<back-button [link]="''" [title]="'Regresar a Exámenes'"></back-button>
 <div class="container" style="position: relative">
-  <back-button [link]="''" [title]="'Exámenes'"></back-button><h1 class="page-title">Examen - <span>{{examName}}</span></h1>
+  <h1 class="page-title">Examen - <span>{{examName}}</span></h1>
 </div>
 <div id="addExam" class="container" style="display: flex; flex-direction: column">
   <div class="row"  style="justify-content: center" *ngIf="examEdit">
@@ -43,6 +44,7 @@
   <div class="row" style="">
     <div class="card card-signin col-12">
       <h5 class="card-title text-center" style="margin-top: 33px; margin-bottom: ;">Lista de preguntas</h5>
+      <loader *ngIf="loading"></loader>
       <ngx-datatable
         #table
         class="material"
@@ -73,7 +75,7 @@
       <div class="container">
         <div class="row">
           <button class="btn btn-primary btn-add" (click)="open()">Agregar pregunta <fa name="plus-circle" class="icons"></fa></button>
-          <button class="btn btn-primary btn-delete" (click)="onDelete()" *ngIf="selected.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>
+          <button class="btn btn-primary btn-delete" (click)="onDelete()" style="left: 200px" *ngIf="selected.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>
         </div>
       </div>
     </div>
@@ -94,17 +96,36 @@
             [(ngModel)]="questionEdit.points" #pointss="ngModel" name="pointss"  value="0" min="0" max="100" ngModel>
             <label for="inputPoints">Puntos</label>
           </div>
+
           <div class="form-label-group">
-            <tag-input  [placeholder]="'+ Tag'" [secondaryPlaceholder]="'Tags *'" [modelAsStrings]="true" [theme]="'bootstrap'"
+            <tag-input [separatorKeyCodes]="[188, 13]" [placeholder]="'+ Tag'" [secondaryPlaceholder]="'Tags *'" [modelAsStrings]="true" [theme]="'foundation-theme'"
             [(ngModel)]="questionEdit.tags" #tags="ngModel" name="tags" ngModel></tag-input>
+          </div>
+          <div class="form-label-group">
+            <input type="text" id="inputCat" class="form-control" placeholder="Categoria" required
+            [(ngModel)]="questionEdit.category" #cat="ngModel" name="cat" disabled>
+            <label for="inputCat">Categoría</label>
+          </div>
+          <div class="form-group">
+            <select class="form-control selectpicker" id="selectType" (change)="onChange($event.target)">
+              <option selected disabled>Cambiar tipo</option>
+              <option>Opción mutliple</option>
+              <option>Checkbox</option>
+              <option>Radio</option>
+              <option>Caja de Texto corto</option>
+              <option>Caja de Texto largo</option>
+              <option>Párrafo</option>
+              <option>Ensayo</option>
+            </select>
           </div>
 
         </form>
         <button (click)="updateQuestion()" class="btn btn-primary btn-block btn-save" name="button">Actualizar pregunta</button>
       </div>
     </div>
-    <div class="card card-signin col-sm-12 col-md-6 col-lg-5">
-      <h5 class="card-title text-center" style="margin-top: 33px; margin-bottom: ;">Lista de respuestas</h5>
+    <div class="card card-signin col-sm-12 col-md-6 col-lg-5" style="height: 467px">
+      <loader *ngIf="loadingAns"></loader>
+      <h5 class="card-title text-center" style="margin-top: 33px;">Lista de respuestas</h5>
       <ngx-datatable
         #table2
         class="material"
@@ -136,7 +157,7 @@
       <div class="container">
         <div class="row">
           <button *ngIf="checkAnswers || (!checkAnswers && rows2.length < 1)" class="btn btn-primary btn-add" (click)="openAns()">Agregar Respuesta <fa name="plus-circle" class="icons"></fa></button>
-          <button class="btn btn-primary btn-delete" (click)="onDeleteAns(row)" *ngIf="selectedAns.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>
+          <button class="btn btn-primary btn-delete" (click)="onDeleteAns(row)" style="left: 210px"  *ngIf="selectedAns.length > 0">Borrar <fa name="minus-circle" class="icons"></fa></button>
         </div>
       </div>
     </div>
@@ -173,6 +194,7 @@
           </div>
         </form>
         <a class="btn btn-primary" (click)="addVar()" style="color: white; margin-bottom: 5px;">Variable <fa name="plus-circle" class="icons"></fa></a>
+        <a class="btn btn-primary" (click)="delVar()" style="color: white; margin-left: 5px; margin-bottom: 5px;">Borrar <fa name="minus-circle" class="icons"></fa></a>
         <button (click)="updateAnswer()" class="btn btn-primary btn-block btn-save" name="button">Actualizar respuesta</button>
       </div>
     </div>

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseService } from './base/base.service';
 
-const user = 'test'
-const password = '1234567a';
-
 @Injectable({
   providedIn: 'root'
 })
