@@ -1788,7 +1788,7 @@ ${msgIdle}`, { headers: this.adapter.newHeaders({ 'Content-Type': 'text/plain' }
         // The SW does not have a clean installation of the latest version of the app, but older
         // cached versions are safe to use so long as they don't try to fetch new dependencies.
         // This is a degraded state.
-        DriverReadyState[DriverReadyState["EXISTING_CLIENTS_ONLY"] = 1] = "EXISTING_CLIENTS_ONLY";
+//         DriverReadyState[DriverReadyState["EXISTING_CLIENTS_ONLY"] = 1] = "EXISTING_CLIENTS_ONLY";
         // The SW has decided that caching is completely unreliable, and is forgoing request
         // handling until the next restart.
         DriverReadyState[DriverReadyState["SAFE_MODE"] = 2] = "SAFE_MODE";
