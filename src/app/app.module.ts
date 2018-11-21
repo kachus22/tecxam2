@@ -45,6 +45,7 @@ import { AddExamModalComponent } from './components/add-exam-modal/add-exam-moda
 import { AddQuestionModalComponent } from './components/add-question-modal/add-question-modal.component';
 import { AddAnswerModalComponent } from './components/add-answer-modal/add-answer-modal.component';
 import { EditExamComponent } from './components/_edit-exam/edit-exam.component';
+import { QuestionsComponent } from './components/_questions/questions.component';
 import { NotFoundPageComponent } from './components/_not-found-page/not-found-page.component';
 import { LoaderComponent } from './components/loader/loader.component';
 
@@ -64,6 +65,7 @@ import { LoaderComponent } from './components/loader/loader.component';
     AddQuestionModalComponent,
     AddAnswerModalComponent,
     EditExamComponent,
+    QuestionsComponent,
     NotFoundPageComponent,
     LoaderComponent
   ],

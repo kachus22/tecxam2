@@ -5,6 +5,7 @@ import { LoginPageComponent } from 'src/app/components/_login-page/login-page.co
 import { MainPageComponent } from './components/_main-page/main-page.component';
 import { ExamsPageComponent } from './components/_exams-page/exams-page.component';
 import { EditExamComponent } from './components/_edit-exam/edit-exam.component';
+import { QuestionsComponent } from './components/_questions/questions.component';
 import { NotFoundPageComponent } from './components/_not-found-page/not-found-page.component';
 
 const routes: Routes = [
@@ -25,6 +26,11 @@ const routes: Routes = [
   {
      path: 'courses/:id/exams',
      component: ExamsPageComponent,
+     canActivate: [AuthGuard]
+  },
+  {
+     path: 'questions',
+     component: QuestionsComponent,
      canActivate: [AuthGuard]
   },
   {
