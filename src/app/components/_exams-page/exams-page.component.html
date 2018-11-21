@@ -56,7 +56,7 @@
         <a routerLink="/courses/{{courseID}}/exams/{{row.id}}/questions"><fa class="i-edit" name="edit" size="lg" animation="" style="margin-right: 10px;" *ngIf="row.type != 'Otro'"></fa></a>
         <div class="separator" *ngIf="row.type == 'Otro'"></div>
         <a  (click)="getPDF(row.id)" target="_blank" download><fa class="i-download" name="book" size="lg" animation="" style="margin-right: 10px"></fa></a>
-        <a  (click)="getPDFAns(row.id)" target="_blank" download><fa class="i-download" name="tasks" size="lg" animation=""></fa></a>
+        <a  (click)="getPDFAns(row.id)" target="_blank" download><fa class="i-download" name="check-circle" size="lg" animation=""></fa></a>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>
