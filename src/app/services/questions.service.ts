@@ -28,7 +28,7 @@ export class QuestionsService {
     return this.base.get(`questions`);
   }
 
-  add2(cid: string, eid: string, postBody: any){
+  add2(postBody: any){
     return this.base.post(`questions`, postBody);
   }
 
