@@ -600,6 +600,9 @@ SOFTWARE.
 ngx-toggle-switch
 MIT
 
+@angular/service-worker
+MIT
+
 zone.js
 MIT
 The MIT License

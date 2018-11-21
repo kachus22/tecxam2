@@ -48,6 +48,8 @@ import { EditExamComponent } from './components/_edit-exam/edit-exam.component';
 import { QuestionsComponent } from './components/_questions/questions.component';
 import { NotFoundPageComponent } from './components/_not-found-page/not-found-page.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     NgxDatatableModule,
     TagInputModule,
     UiSwitchModule,
-    ScrollToModule.forRoot()
+    ScrollToModule.forRoot(),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     BaseService,
