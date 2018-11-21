@@ -5,7 +5,7 @@
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/tecxam/",
-  "start_url": "/tecxam/index.html",
+  "start_url": "/tecxam/",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
