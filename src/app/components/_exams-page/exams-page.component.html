@@ -32,7 +32,7 @@
         </ngx-datatable-group-header>
 
 
-    <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+    <ngx-datatable-column [width]="40" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
         <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
           <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>
         </ng-template>
@@ -53,10 +53,10 @@
       [draggable]="false"
       [canAutoResize]="false">
       <ng-template let-row="row" let-group="group" ngx-datatable-cell-template>
-        <a routerLink="/courses/{{courseID}}/exams/{{row.id}}/questions"><fa class="i-edit" name="edit" size="lg" animation="" style="margin-right: 10px;" *ngIf="row.type != 'Otro'"></fa></a>
+        <a routerLink="/courses/{{courseID}}/exams/{{row.id}}/questions"><fa class="i-i" name="edit" size="lg" animation="" style="margin-right: 10px;" *ngIf="row.type != 'Otro'"></fa></a>
         <div class="separator" *ngIf="row.type == 'Otro'"></div>
-        <a  (click)="getPDF(row.id)" target="_blank" download><fa class="i-download" name="book" size="lg" animation="" style="margin-right: 10px"></fa></a>
-        <a  (click)="getPDFAns(row.id)" target="_blank" download><fa class="i-download" name="check-circle" size="lg" animation=""></fa></a>
+        <a  (click)="getPDF(row.id)" target="_blank" download><fa class="i-i" name="book" size="lg" animation="" style="margin-right: 10px"></fa></a>
+        <a  (click)="getPDFAns(row.id)" target="_blank" download><fa class="i-i" name="check-circle" size="lg" animation=""></fa></a>
       </ng-template>
     </ngx-datatable-column>
   </ngx-datatable>

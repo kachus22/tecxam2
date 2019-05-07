@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css"
 @import "~bootstrap/dist/css/bootstrap.css"
 @import "~font-awesome/css/font-awesome.css"
 @import "~ng6-toastr/ng2-toastr.css"
@@ -8,27 +9,37 @@
 @import "~ngx-chips/core/styles/core/_core.scss"
 
 
+
 // Variables
-$blue-tec: rgb(63,81,181)
+$blue-tec: #ffb725
 $select: #007bff
-$pink: #ff508e
+// $pink: #ff508e
+$pink: #26a69a
 
 body
   margin: 0
   padding-bottom: 100px
   background: $blue-tec
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, $blue-tec, #4457C4, #465AC9, #4971D1, #596ed6)
+  background: -webkit-linear-gradient(to right, $blue-tec, #e7ab33, #f2bb4f, #f6c970, #f5bc4c)
   /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, $blue-tec, #425ABC, #4666C4, #4A72CE, #596ed6)
+  background: linear-gradient(to right, $blue-tec, #e7ab33, #f2bb4f, #f6c970, #f5bc4c)
   /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   position: relative
 
+a
+  color: $pink
+  &:hover
+    color: #d54176
+
 button.btn, a.btn
-  border-radius: 2rem
+  // border-radius: 2rem
   background: $pink
   border-color: $pink
   color: white
+  &:hover
+    background: #11b7a8 !important
+    border-color: #11b7a8 !important
 
 h1.page-title
   display: flex
