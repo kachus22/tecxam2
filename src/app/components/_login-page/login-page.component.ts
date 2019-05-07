@@ -45,7 +45,7 @@ export class LoginPageComponent implements OnInit {
 
   onSubmitRegister(e){
     if(e){
-      this.showSuccess('Bienvenido a TecXam!');
+      this.showSuccess('Bienvenido a Tecnecio!');
       this.loading = true;
       setTimeout(() => {
           this.router.navigateByUrl('');
